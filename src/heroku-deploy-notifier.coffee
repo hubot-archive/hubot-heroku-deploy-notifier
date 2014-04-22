@@ -2,7 +2,8 @@
 #   A hubot script that notifies of heroku app deploys
 #
 # Configuration:
-#   HUBOT_HEROKU_DEPLOY_ROOM - Room where notifications are dropped (optional)
+#   HUBOT_HEROKU_DEPLOY_ROOM     - Default room where notifications are dropped. (optional)
+#   HUBOT_HEROKU_DEPLOY_TEMPLATE - Override the default mustache notification template. (optional)
 #
 # Commands:
 #   None.
@@ -11,19 +12,34 @@
 #   POST /hubot/heroku-deploys[?room=<room>]
 #
 # Notes:
-#   <optional notes required for the script>
+#   * Templating values are those available in the payload delivered from Heroku:
+#   https://devcenter.heroku.com/articles/deploy-hooks#customizing-messages
 #
 # Author:
 #   patcon@gittip
 
-url = require('url')
-qs  = require('querystring')
+config =
+  room:     process.env.HUBOT_HEROKU_DEPLOY_ROOM
+  template: process.env.HUBOT_HEROKU_DEPLOY_TEMPLATE
+
+defaults =
+  template: "App deployed to Heroku: {{app}}@{{head}}"
+  room:     config.room
+
+url      = require('url')
+qs       = require('querystring')
+Mustache = require('mustache')
 
 module.exports = (robot) ->
   robot.router.post "/hubot/heroku-deploys", (req, res) ->
-    query = qs.parse(url.parse(req.url).query)
+    uri = url.parse(req.url)
+    query = qs.parse(uri.query)
 
-    data = req.body
-    room = query.room or process.env["HUBOT_HEROKU_DEPLOY_ROOM"]
+    room = query.room or defaults.room
+    template = config.template or defaults.template
+    data = view = req.body
+
+    message = Mustache.render template, view
 
     console.log data
+    robot.messageRoom room, message
