@@ -47,8 +47,9 @@ module.exports = (robot) ->
     template = config.template or defaults.template
     data = req.body
 
-    messages = []
-    messages.push Mustache.render template, data
+    message = Mustache.render template, data
+
+    robot.messageRoom room, message
 
     # Generate a URL for comparing commits on GitHub
     if config.heroku_apikey? and config.gh_repo_map[data.app]?
@@ -64,10 +65,7 @@ module.exports = (robot) ->
           deploy_commit = data.head
 
           if last_commit? and deploy_commit?
-            messages.push "Changes: https://github.com/#{repo}/compare/#{last_commit}...#{deploy_commit}"
-
-    for message in messages
-      robot.messageRoom room, message
+            robot.messageRoom room, "Changes: https://github.com/#{repo}/compare/#{last_commit}...#{deploy_commit}"
 
     # End the response? Not doc'd.
     res.end ""
