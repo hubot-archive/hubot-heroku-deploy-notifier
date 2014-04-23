@@ -28,7 +28,7 @@ config =
   room:          process.env.HUBOT_HEROKU_DEPLOY_ROOM
   template:      process.env.HUBOT_HEROKU_DEPLOY_TEMPLATE
   heroku_apikey: process.env.HUBOT_HEROKU_DEPLOY_APIKEY
-  gh_repo_map:   JSON.parse process.env.HUBOT_HEROKU_DEPLOY_REPO_MAP
+  gh_repo_map:   JSON.parse(process.env.HUBOT_HEROKU_DEPLOY_REPO_MAP or {})
 
 defaults =
   template: "App deployed to Heroku: {{app}}@{{head}}"
@@ -68,4 +68,4 @@ module.exports = (robot) ->
             robot.messageRoom room, "Changes: https://github.com/#{repo}/compare/#{last_commit}...#{deploy_commit}"
 
     # End the response? Not doc'd.
-    res.end ""
+    res.end()
