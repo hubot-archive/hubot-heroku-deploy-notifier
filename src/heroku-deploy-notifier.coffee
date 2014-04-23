@@ -37,9 +37,12 @@ module.exports = (robot) ->
 
     room = query.room or defaults.room
     template = config.template or defaults.template
-    data = view = req.body
+    data = req.body
 
-    message = Mustache.render template, view
+    # Weird url escaping needed for slashes...?
+    data.url = data.url.replace(/&#x2F;/g, '/')
+
+    message = Mustache.render template, data
 
     console.log data
     robot.messageRoom room, message
