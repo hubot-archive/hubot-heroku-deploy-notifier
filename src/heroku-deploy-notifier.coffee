@@ -4,7 +4,7 @@
 # Configuration:
 #   HUBOT_HEROKU_DEPLOY_ROOM     - Default room where notifications are dropped. (optional)
 #   HUBOT_HEROKU_DEPLOY_TEMPLATE - Override the default mustache notification template. (optional)
-#   HUBOT_HEROKU_DEPLOY_API_KEY  - Required for using the {{{compare_url}}} template var.
+#   HUBOT_HEROKU_DEPLOY_APIKEY   - Required for using the {{{compare_url}}} template var.
 #   HUBOT_HEROKU_DEPLOY_REPO_MAP - Required for proper contruction of GitHub URLs. JSON hash. (See notes)
 #
 # Commands:
