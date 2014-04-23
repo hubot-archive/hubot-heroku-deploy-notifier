@@ -14,6 +14,8 @@
 # Notes:
 #   * Templating values are those available in the payload delivered from Heroku:
 #   https://devcenter.heroku.com/articles/deploy-hooks#customizing-messages
+#   * Keep in mind that all mustache vars are urlescaped by default. Use a
+#   triple-mustache to skip urlescaping, like for {{{url}}}.
 #
 # Author:
 #   patcon@gittip
