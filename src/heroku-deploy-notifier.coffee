@@ -41,6 +41,18 @@ module.exports = (robot) ->
     template = config.template or defaults.template
     data = req.body
 
+    # Generate a URL for comparing commits on GitHub
+    commits_msgs = data.git_log.replace(/^\*/, '').split(' *')
+
+    first_message = commit_msgs[0]
+    last_message  = commit_msgs[-1]
+
+    # Missing GitHub Search API functionality
+    first_commit = # Search for commit message in repo
+    last_commit  = # Search for commit message in repo
+
+    data.compare_url = "https://github.com/#{repo}/compare/#{first_commit}...#{last_commit}"
+
     message = Mustache.render template, data
 
     robot.messageRoom room, message
