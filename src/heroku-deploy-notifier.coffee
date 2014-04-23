@@ -39,9 +39,6 @@ module.exports = (robot) ->
     template = config.template or defaults.template
     data = req.body
 
-    # Weird url escaping needed for slashes...?
-    data.url = data.url.replace(/&#x2F;/g, '/')
-
     message = Mustache.render template, data
 
     robot.messageRoom room, message
