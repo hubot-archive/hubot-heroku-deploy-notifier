@@ -44,5 +44,7 @@ module.exports = (robot) ->
 
     message = Mustache.render template, data
 
-    console.log data
     robot.messageRoom room, message
+
+    # End the response? Not doc'd.
+    res.end ""
