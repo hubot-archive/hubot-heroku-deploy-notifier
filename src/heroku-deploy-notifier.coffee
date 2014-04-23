@@ -63,7 +63,8 @@ module.exports = (robot) ->
           last_commit = release_data[-1].commit[0..6]
           deploy_commit = data.head
 
-          messages.push "Changes: https://github.com/#{repo}/compare/#{last_commit}...#{deploy_commit}"
+          if last_commit? and deploy_commit?
+            messages.push "Changes: https://github.com/#{repo}/compare/#{last_commit}...#{deploy_commit}"
 
     for message in messages
       robot.messageRoom room, message
